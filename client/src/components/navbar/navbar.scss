@@ -11,12 +11,6 @@
   &.active {
     background-color: #fff;
     color: #000;
-
-    .container {
-      a {
-        color: #000;
-      }
-    }
   }
 
   .container {
@@ -24,9 +18,7 @@
     display: flex;
     justify-content: space-between;
     padding: 20px 0px;
-    a {
-      color: #fff;
-    }
+
     .logo {
       font-size: 34px;
       font-weight: 700;
