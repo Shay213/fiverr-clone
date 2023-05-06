@@ -51,13 +51,23 @@ export default function Navbar() {
                 <div className="options">
                   {currUser?.isSeller && (
                     <>
-                      <span>Gigs</span>
-                      <span>Add New Gig</span>
+                      <Link to="/mygigs" className="link">
+                        Gigs
+                      </Link>
+                      <Link to="/add" className="link">
+                        Add New Gig
+                      </Link>
                     </>
                   )}
-                  <span>Orders</span>
-                  <span>Messages</span>
-                  <span>Logout</span>
+                  <Link to="/orders" className="link">
+                    Orders
+                  </Link>
+                  <Link to="/messages" className="link">
+                    Messages
+                  </Link>
+                  <Link to="/" className="link">
+                    Logout
+                  </Link>
                 </div>
               )}
             </div>
