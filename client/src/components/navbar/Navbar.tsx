@@ -1,10 +1,12 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import "./navbar.scss";
 import { useEffect, useState } from "react";
 
 export default function Navbar() {
   const [active, setActive] = useState(false);
   const [open, setOpen] = useState(false);
+
+  const { pathname } = useLocation();
 
   const currUser = {
     id: 1,
@@ -25,7 +27,7 @@ export default function Navbar() {
   }, []);
 
   return (
-    <div className={active ? "navbar active" : "navbar"}>
+    <div className={active || pathname !== "/" ? "navbar active" : "navbar"}>
       <div className="container">
         <div className="logo">
           <Link to="/" className="link">
@@ -74,15 +76,41 @@ export default function Navbar() {
           )}
         </div>
       </div>
-      {active && (
-        <>
-          <hr />
-          <div className="menu">
-            <span>Test</span>
-            <span>Test2</span>
-          </div>
-        </>
-      )}
+      {active ||
+        (pathname !== "/" && (
+          <>
+            <hr />
+            <div className="menu">
+              <Link to="/" className="link">
+                Graphics & Design
+              </Link>
+              <Link to="/" className="link">
+                Video & Animation
+              </Link>
+              <Link to="/" className="link">
+                Writing & Translation
+              </Link>
+              <Link to="/" className="link">
+                AI Services
+              </Link>
+              <Link to="/" className="link">
+                Digital Marketing
+              </Link>
+              <Link to="/" className="link">
+                Music & Audio
+              </Link>
+              <Link to="/" className="link">
+                Programming & Tech
+              </Link>
+              <Link to="/" className="link">
+                Business
+              </Link>
+              <Link to="/" className="link">
+                Lifestyle
+              </Link>
+            </div>
+          </>
+        ))}
     </div>
   );
 }
