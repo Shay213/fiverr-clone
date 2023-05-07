@@ -14,6 +14,7 @@ export default function Gig() {
           <h1>I will create ai generated art for you</h1>
           <div className="user">
             <img
+              className="pp"
               src="https://images.pexels.com/photos/3695799/pexels-photo-3695799.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
               alt=""
             />
@@ -27,7 +28,14 @@ export default function Gig() {
               <span>5</span>
             </div>
           </div>
-          <MySlider visibleElements={1} elWidth={300} elHeight={300} gap={0}>
+          <MySlider
+            visibleElements={1}
+            elWidth={300}
+            elHeight={300}
+            gap={0}
+            arrows={true}
+            autoSlide={false}
+          >
             <img
               src="https://images.pexels.com/photos/845405/pexels-photo-845405.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
               alt=""

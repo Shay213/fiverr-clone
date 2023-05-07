@@ -1,5 +1,13 @@
 import "./slider.scss";
-import { Children, ReactNode, useEffect, useRef, useState } from "react";
+import React, {
+  Children,
+  ReactNode,
+  cloneElement,
+  isValidElement,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import arrLeft from "../../assets/img/arrow-left-sm-svgrepo-com.svg";
 import arrRight from "../../assets/img/arrow-right-sm-svgrepo-com.svg";
 
@@ -11,6 +19,7 @@ interface MySliderProps {
   gap: number;
   style?: object;
   arrows?: boolean;
+  autoSlide?: boolean;
 }
 
 export default function MySlider({
@@ -21,6 +30,7 @@ export default function MySlider({
   gap,
   style,
   arrows,
+  autoSlide = true,
 }: MySliderProps) {
   const numOfElements = Children.count(children);
   const sliderWidth = visibleElements * elWidth + (visibleElements - 1) * gap;
@@ -29,6 +39,19 @@ export default function MySlider({
   const rightThreshold = (containerWidth + gap) * 2;
   const intervalId = useRef<number | null>(null);
   const isInAnimation = useRef(false);
+
+  const updatedChildren = Children.map(children, (child) => {
+    if (isValidElement(child)) {
+      return cloneElement(child, {
+        style: {
+          ...child.props.style,
+          width: `${elWidth}px`,
+          height: `${elHeight}px`,
+        },
+      } as React.HTMLAttributes<HTMLElement>);
+    }
+    return null;
+  });
 
   const [transformX, setTransformX] = useState({
     left: { value: -containerWidth - gap, transition: 0 },
@@ -65,6 +88,7 @@ export default function MySlider({
   };
 
   useEffect(() => {
+    if (!autoSlide) return;
     intervalManager(true, slide, 3000);
 
     return () => {
@@ -111,7 +135,7 @@ export default function MySlider({
           transform: `translate(${transformX.left.value}px)`,
         }}
       >
-        {children}
+        {updatedChildren}
       </div>
       <div
         className="container"
@@ -121,7 +145,7 @@ export default function MySlider({
           transform: `translate(${transformX.middle.value}px)`,
         }}
       >
-        {children}
+        {updatedChildren}
       </div>
       <div
         className="container"
@@ -131,7 +155,7 @@ export default function MySlider({
           transform: `translate(${transformX.right.value}px)`,
         }}
       >
-        {children}
+        {updatedChildren}
       </div>
       {arrows && (
         <>
