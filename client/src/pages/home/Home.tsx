@@ -5,6 +5,7 @@ import "./home.scss";
 import { cards } from "../../data";
 import CatCard from "../../components/catCard/CatCard";
 import Features from "../../components/features/Features";
+import Teams from "../../components/teams/Teams";
 
 export default function Home() {
   return (
@@ -24,6 +25,7 @@ export default function Home() {
         ))}
       </MySlider>
       <Features />
+      <Teams />
     </div>
   );
 }
