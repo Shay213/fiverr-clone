@@ -4,6 +4,7 @@ import TrustedBy from "../../components/trustedBy/TrustedBy";
 import "./home.scss";
 import { cards } from "../../data";
 import CatCard from "../../components/catCard/CatCard";
+import Features from "../../components/features/Features";
 
 export default function Home() {
   return (
@@ -22,6 +23,7 @@ export default function Home() {
           <CatCard item={card} key={card.id} />
         ))}
       </MySlider>
+      <Features />
     </div>
   );
 }
