@@ -66,3 +66,55 @@ export const cards = [
     img: "https://images.pexels.com/photos/16048052/pexels-photo-16048052.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
   },
 ];
+
+export const projects = [
+  {
+    id: 1,
+    img: "https://images.pexels.com/photos/303383/pexels-photo-303383.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    pp: "https://images.pexels.com/photos/3796217/pexels-photo-3796217.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    cat: "Gig1",
+    username: "Anna Bell",
+  },
+  {
+    id: 2,
+    img: "https://images.pexels.com/photos/303383/pexels-photo-303383.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    pp: "https://images.pexels.com/photos/3796217/pexels-photo-3796217.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    cat: "Gig2",
+    username: "Anna Bell",
+  },
+  {
+    id: 3,
+    img: "https://images.pexels.com/photos/303383/pexels-photo-303383.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    pp: "https://images.pexels.com/photos/3796217/pexels-photo-3796217.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    cat: "Gig3",
+    username: "Anna Bell",
+  },
+  {
+    id: 4,
+    img: "https://images.pexels.com/photos/303383/pexels-photo-303383.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    pp: "https://images.pexels.com/photos/3796217/pexels-photo-3796217.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    cat: "Gig4",
+    username: "Anna Bell",
+  },
+  {
+    id: 5,
+    img: "https://images.pexels.com/photos/303383/pexels-photo-303383.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    pp: "https://images.pexels.com/photos/3796217/pexels-photo-3796217.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    cat: "Gig5",
+    username: "Anna Bell",
+  },
+  {
+    id: 6,
+    img: "https://images.pexels.com/photos/303383/pexels-photo-303383.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    pp: "https://images.pexels.com/photos/3796217/pexels-photo-3796217.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    cat: "Gig6",
+    username: "Anna Bell",
+  },
+  {
+    id: 7,
+    img: "https://images.pexels.com/photos/303383/pexels-photo-303383.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    pp: "https://images.pexels.com/photos/3796217/pexels-photo-3796217.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    cat: "Gig7",
+    username: "Anna Bell",
+  },
+];

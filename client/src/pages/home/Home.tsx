@@ -2,10 +2,11 @@ import Featured from "../../components/featured/Featured";
 import MySlider from "../../components/slider/MySlider";
 import TrustedBy from "../../components/trustedBy/TrustedBy";
 import "./home.scss";
-import { cards } from "../../data";
+import { cards, projects } from "../../data";
 import CatCard from "../../components/catCard/CatCard";
 import Features from "../../components/features/Features";
 import Teams from "../../components/teams/Teams";
+import ProjectCard from "../../components/projectCard/ProjectCard";
 
 export default function Home() {
   return (
@@ -26,6 +27,18 @@ export default function Home() {
       </MySlider>
       <Features />
       <Teams />
+      <MySlider
+        visibleElements={4}
+        elWidth={300}
+        elHeight={300}
+        gap={15}
+        style={{ margin: "100px auto", padding: "10px 0px" }}
+        arrows={true}
+      >
+        {projects.map((project) => (
+          <ProjectCard item={project} key={project.id} />
+        ))}
+      </MySlider>
     </div>
   );
 }
