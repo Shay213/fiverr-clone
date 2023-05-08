@@ -9,7 +9,7 @@ export default function Features() {
         <div className="item">
           <h1>A whole world of freelance talent at your fingertips</h1>
           <div className="title">
-            <img src={BASE_URL + "img/check.png"} alt="" />
+            <img src={BASE_URL + "img/check.png"} alt="" className="check" />
             The best for every budget
           </div>
           <p>
@@ -17,7 +17,7 @@ export default function Features() {
             quos sed ab totam architecto.
           </p>
           <div className="title">
-            <img src={BASE_URL + "img/check.png"} alt="" />
+            <img src={BASE_URL + "img/check.png"} alt="" className="check" />
             The best for every budget
           </div>
           <p>
@@ -25,7 +25,7 @@ export default function Features() {
             quos sed ab totam architecto.
           </p>
           <div className="title">
-            <img src={BASE_URL + "img/check.png"} alt="" />
+            <img src={BASE_URL + "img/check.png"} alt="" className="check" />
             The best for every budget
           </div>
           <p>

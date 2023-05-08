@@ -14,15 +14,15 @@ export default function Teams() {
             dedicated to business
           </p>
           <div className="title">
-            <img src={BASE_URL + "img/check.png"} alt="" />
+            <img src={BASE_URL + "img/check.png"} alt="" className="check" />
             Connect to freelancers with proven business experience
           </div>
           <div className="title">
-            <img src={BASE_URL + "img/check.png"} alt="" />
+            <img src={BASE_URL + "img/check.png"} alt="" className="check" />
             Get matched with the perfect talent by a customer success manager
           </div>
           <div className="title">
-            <img src={BASE_URL + "img/check.png"} alt="" />
+            <img src={BASE_URL + "img/check.png"} alt="" className="check" />
             Manage teamwork and boost productivity with one powerful workspace
           </div>
           <button>Explore Fiverr Business</button>
