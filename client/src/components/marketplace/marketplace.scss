@@ -1,0 +1,44 @@
+.marketplace {
+  display: flex;
+  justify-content: center;
+  padding: 70px 30px 120px 30px;
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    flex: 0 1 1400px;
+
+    h1 {
+      color: gray;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      row-gap: 60px;
+
+      .item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        hr {
+          height: 0px;
+          border-top: 1px solid lightgray;
+          width: 60px;
+          margin: 0px;
+        }
+
+        span {
+          font-size: 14px;
+        }
+
+        img {
+          border-radius: 0px;
+          width: 38px;
+          height: 38px;
+        }
+      }
+    }
+  }
+}

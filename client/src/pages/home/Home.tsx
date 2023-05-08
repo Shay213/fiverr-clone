@@ -7,6 +7,7 @@ import CatCard from "../../components/catCard/CatCard";
 import Features from "../../components/features/Features";
 import Teams from "../../components/teams/Teams";
 import ProjectCard from "../../components/projectCard/ProjectCard";
+import Marketplace from "../../components/marketplace/Marketplace";
 
 export default function Home() {
   return (
@@ -26,6 +27,7 @@ export default function Home() {
         ))}
       </MySlider>
       <Features />
+      <Marketplace />
       <Teams />
       <MySlider
         visibleElements={4}
