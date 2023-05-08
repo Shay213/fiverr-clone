@@ -97,9 +97,11 @@ export default function MySlider({
   }, []);
 
   const handleEnter = () => {
+    if (!autoSlide) return;
     intervalManager(false);
   };
   const handleLeave = () => {
+    if (!autoSlide) return;
     intervalManager(true, slide, 3000);
   };
   const handleLeft = () => {

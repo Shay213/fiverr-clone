@@ -6,6 +6,7 @@
   position: relative;
 
   .container {
+    width: min-content !important;
     display: flex;
     position: absolute;
   }

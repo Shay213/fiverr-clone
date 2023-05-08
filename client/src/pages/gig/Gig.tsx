@@ -30,8 +30,8 @@ export default function Gig() {
           </div>
           <MySlider
             visibleElements={1}
-            elWidth={300}
-            elHeight={300}
+            elWidth={500}
+            elHeight={500}
             gap={0}
             arrows={true}
             autoSlide={false}
@@ -119,6 +119,7 @@ export default function Gig() {
             <div className="item">
               <div className="user">
                 <img
+                  className="pp"
                   src="https://images.pexels.com/photos/3695799/pexels-photo-3695799.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
                   alt=""
                 />
@@ -160,6 +161,7 @@ export default function Gig() {
             <div className="item">
               <div className="user">
                 <img
+                  className="pp"
                   src="https://images.pexels.com/photos/3695799/pexels-photo-3695799.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
                   alt=""
                 />
@@ -201,6 +203,7 @@ export default function Gig() {
             <div className="item">
               <div className="user">
                 <img
+                  className="pp"
                   src="https://images.pexels.com/photos/3695799/pexels-photo-3695799.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
                   alt=""
                 />
@@ -239,7 +242,45 @@ export default function Gig() {
             </div>
           </div>
         </div>
-        <div className="right"></div>
+        <div className="right">
+          <div className="price">
+            <h3>1 AI generated image</h3>
+            <h2>$ 59.99</h2>
+          </div>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Mipsa illo
+            tenetur delectus labore maiores et.
+          </p>
+          <div className="details">
+            <div className="item">
+              <img src={BASE_URL + "img/clock.png"} alt="" />
+              <span>2 days Delivery</span>
+            </div>
+            <div className="item">
+              <img src={BASE_URL + "img/recycle.png"} alt="" />
+              <span>3 Revision</span>
+            </div>
+          </div>
+          <div className="featuers">
+            <div className="item">
+              <img src={BASE_URL + "img/greencheck.png"} alt="" />
+              <span>Prompt writing</span>
+            </div>
+            <div className="item">
+              <img src={BASE_URL + "img/greencheck.png"} alt="" />
+              <span>Artwork delivery</span>
+            </div>
+            <div className="item">
+              <img src={BASE_URL + "img/greencheck.png"} alt="" />
+              <span>Image upscaling</span>
+            </div>
+            <div className="item">
+              <img src={BASE_URL + "img/greencheck.png"} alt="" />
+              <span>Additional design</span>
+            </div>
+          </div>
+          <button>Continue</button>
+        </div>
       </div>
     </div>
   );
