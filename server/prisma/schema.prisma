@@ -22,6 +22,31 @@ model User {
   isSeller  Boolean  @default(false) @map("is_seller")
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @map("updated_ at")
+  gigs      Gig[]
 
   @@map("user")
+}
+
+model Gig {
+  id               String   @id @default(uuid())
+  user             User     @relation(fields: [userId], references: [id])
+  userId           String   @unique @map("user_id")
+  title            String
+  desc             String
+  totalStars       Int      @default(0) @map("total_stars")
+  starNumber       Int      @default(0) @map("star_number")
+  category         String
+  price            Float
+  cover            String
+  images           String[]
+  shortTitle       String   @map("short_title")
+  shortDescription String   @map("short_description")
+  deliveryTime     Int      @map("delivery_time")
+  revision         Int
+  features         String[]
+  sales            Int?     @default(0)
+  createdAt        DateTime @default(now()) @map("created_at")
+  updatedAt        DateTime @default(now()) @map("updated_ at")
+
+  @@map("gig")
 }
