@@ -28,6 +28,7 @@ model User {
   buyerOrders        Order[]        @relation(name: "buyer")
   sellerConversation Conversation[] @relation(name: "sellerConversation")
   buyerConversation  Conversation[] @relation(name: "buyerConversation")
+  message            Message[]
 
   @@map("user")
 }
@@ -112,4 +113,13 @@ model Conversation {
   updatedAt    DateTime @default(now()) @map("updated_ at")
 
   @@map("conversation")
+}
+
+model Message {
+  id          String @id @default(uuid())
+  user        User   @relation(fields: [userId], references: [id])
+  description String
+  userId      String @map("user_id")
+
+  @@map("message")
 }
