@@ -11,21 +11,23 @@ datasource db {
 }
 
 model User {
-  id           String   @id @default(uuid())
-  username     String   @unique
-  email        String   @unique
-  password     String
-  img          String?
-  country      String
-  phone        String?
-  desc         String?
-  isSeller     Boolean  @default(false) @map("is_seller")
-  createdAt    DateTime @default(now()) @map("created_at")
-  updatedAt    DateTime @default(now()) @map("updated_ at")
-  gigs         Gig[]
-  review       Review[]
-  sellerOrders Order[]  @relation(name: "seller")
-  buyerOrders  Order[]  @relation(name: "buyer")
+  id                 String         @id @default(uuid())
+  username           String         @unique
+  email              String         @unique
+  password           String
+  img                String?
+  country            String
+  phone              String?
+  desc               String?
+  isSeller           Boolean        @default(false) @map("is_seller")
+  createdAt          DateTime       @default(now()) @map("created_at")
+  updatedAt          DateTime       @default(now()) @map("updated_ at")
+  gigs               Gig[]
+  review             Review[]
+  sellerOrders       Order[]        @relation(name: "seller")
+  buyerOrders        Order[]        @relation(name: "buyer")
+  sellerConversation Conversation[] @relation(name: "sellerConversation")
+  buyerConversation  Conversation[] @relation(name: "buyerConversation")
 
   @@map("user")
 }
@@ -95,4 +97,19 @@ model Order {
   updatedAt     DateTime @default(now()) @map("updated_ at")
 
   @@map("order")
+}
+
+model Conversation {
+  id           String   @id @default(uuid())
+  seller       User     @relation(name: "sellerConversation", fields: [sellerId], references: [id])
+  sellerId     String   @unique @map("seller_id")
+  buyer        User     @relation(name: "buyerConversation", fields: [buyerId], references: [id])
+  buyerId      String   @unique @map("buyer_id")
+  readBySeller Boolean  @map("read_by_seller")
+  readByBuyer  Boolean  @map("read_by_buyer")
+  lastMessage  String?  @map("last_message")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @default(now()) @map("updated_ at")
+
+  @@map("conversation")
 }
