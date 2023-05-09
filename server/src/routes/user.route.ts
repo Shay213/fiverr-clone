@@ -1,6 +1,6 @@
 import { FastifyInstance } from "fastify";
 
-const BASE_API_URL = "/api/users";
+const opts = {};
 
 export default function userRoute(
   fastify: FastifyInstance,

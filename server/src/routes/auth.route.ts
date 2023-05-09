@@ -1,6 +1,8 @@
 import { FastifyInstance } from "fastify";
 
-export default function gigRoute(
+const opts = {};
+
+export default function authRoute(
   fastify: FastifyInstance,
   options: object,
   done: () => void
