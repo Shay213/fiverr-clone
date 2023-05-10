@@ -16,7 +16,7 @@ const fastify = Fastify({ logger: true });
 
 fastify.register(prismaPlugin);
 fastify.register(userRoute, { prefix: "/api/users" });
-fastify.register(authRoute, { prefix: "/api/users" });
+fastify.register(authRoute, { prefix: "/api/auth" });
 fastify.register(reviewRoute, { prefix: "/api/reviews" });
 fastify.register(orderRoute, { prefix: "/api/orders" });
 fastify.register(messageRoute, { prefix: "/api/messages" });
