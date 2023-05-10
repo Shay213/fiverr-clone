@@ -11,6 +11,8 @@ import MyGigs from "./pages/myGigs/MyGigs";
 import Add from "./pages/add/Add";
 import Messages from "./pages/messages/Messages";
 import Message from "./pages/message/Message";
+import Login from "./pages/login/Login";
+import Register from "./pages/register/Register";
 
 function App() {
   const Layout = () => (
@@ -33,6 +35,8 @@ function App() {
           <Route path="/add" element={<Add />} />
           <Route path="/messages" element={<Messages />} />
           <Route path="/message/:id" element={<Message />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
         </Route>
       </Routes>
     </div>
