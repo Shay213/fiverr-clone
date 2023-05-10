@@ -2,6 +2,7 @@ import * as dotenv from "dotenv";
 dotenv.config();
 import Fastify from "fastify";
 import prismaPlugin from "./prisma";
+import cookie from "@fastify/cookie";
 
 // routes
 import userRoute from "./routes/user.route";
@@ -15,6 +16,9 @@ import conversationRoute from "./routes/conversation.route";
 const fastify = Fastify({ logger: true });
 
 fastify.register(prismaPlugin);
+fastify.register(cookie);
+
+// routes
 fastify.register(userRoute, { prefix: "/api/users" });
 fastify.register(authRoute, { prefix: "/api/auth" });
 fastify.register(reviewRoute, { prefix: "/api/reviews" });

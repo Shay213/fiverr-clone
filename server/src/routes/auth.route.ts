@@ -30,6 +30,9 @@ const registerOpts = {
   },
 };
 
+const { properties } = User;
+const { password, ...rest } = properties;
+
 const loginOpts = {
   schema: {
     body: {
@@ -42,7 +45,8 @@ const loginOpts = {
     },
     response: {
       201: {
-        ...User,
+        type: "object",
+        rest,
         id: { type: "string" },
       },
     },

@@ -1,6 +1,7 @@
 import { FastifyRequest, FastifyReply } from "fastify";
 import { User } from "@prisma/client";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 interface LoginBody {
   username: string;
@@ -33,8 +34,23 @@ export const login = async (req: FastifyRequest, reply: FastifyReply) => {
     const isCorrect = bcrypt.compareSync(body.password, user.password);
     if (!isCorrect) return reply.code(400).send("Wrong password or username!");
 
+    const JWT_KEY = process.env.JWT_KEY as string;
+
+    const token = jwt.sign(
+      {
+        id: user.id,
+        isSeller: user.isSeller,
+      },
+      JWT_KEY
+    );
+
     const { password, ...rest } = user;
-    reply.code(200).send(rest);
+    reply
+      .cookie("accessToken", token, {
+        httpOnly: true,
+      })
+      .code(200)
+      .send(rest);
   } catch (error) {
     reply.code(500).send("Something went wrong!");
   }
