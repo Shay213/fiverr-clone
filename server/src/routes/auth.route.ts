@@ -53,6 +53,8 @@ const loginOpts = {
   },
 };
 
+const logoutOpts = {};
+
 export default function authRoute(
   fastify: FastifyInstance,
   options: object,
@@ -60,6 +62,6 @@ export default function authRoute(
 ) {
   fastify.post("/register", registerOpts, register);
   fastify.post("/login", loginOpts, login);
-  //fastify.post("/logout", logoutOpts);
+  fastify.post("/logout", logoutOpts, logout);
   done();
 }

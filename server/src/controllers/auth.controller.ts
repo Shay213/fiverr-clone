@@ -1,7 +1,6 @@
 import { FastifyRequest, FastifyReply } from "fastify";
 import { User } from "@prisma/client";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
 
 interface LoginBody {
   username: string;
@@ -34,19 +33,17 @@ export const login = async (req: FastifyRequest, reply: FastifyReply) => {
     const isCorrect = bcrypt.compareSync(body.password, user.password);
     if (!isCorrect) return reply.code(400).send("Wrong password or username!");
 
-    const JWT_KEY = process.env.JWT_KEY as string;
+    const payload = {
+      id: user.id,
+      isSeller: user.isSeller,
+    };
 
-    const token = jwt.sign(
-      {
-        id: user.id,
-        isSeller: user.isSeller,
-      },
-      JWT_KEY
-    );
-
+    const token = req.server.jwt.sign(payload);
     const { password, ...rest } = user;
-    reply
-      .cookie("accessToken", token, {
+
+    return reply
+      .setCookie("accessToken", token, {
+        path: "/",
         httpOnly: true,
       })
       .code(200)
@@ -57,5 +54,5 @@ export const login = async (req: FastifyRequest, reply: FastifyReply) => {
 };
 
 export const logout = async (req: FastifyRequest, reply: FastifyReply) => {
-  reply.send("from controller");
+  reply.send(req.cookies.accessToken);
 };
