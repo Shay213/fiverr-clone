@@ -44,7 +44,7 @@ const loginOpts = {
       required: ["username", "password"],
     },
     response: {
-      201: {
+      200: {
         type: "object",
         rest,
         id: { type: "string" },
