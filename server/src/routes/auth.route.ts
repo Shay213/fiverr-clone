@@ -24,7 +24,9 @@ const registerOpts = {
     response: {
       201: {
         type: "object",
-        message: { type: "string" },
+        properties: {
+          message: { type: "string" },
+        },
       },
     },
   },
@@ -46,14 +48,27 @@ const loginOpts = {
     response: {
       200: {
         type: "object",
-        rest,
-        id: { type: "string" },
+        properties: {
+          rest,
+          id: { type: "string" },
+        },
       },
     },
   },
 };
 
-const logoutOpts = {};
+const logoutOpts = {
+  schema: {
+    response: {
+      200: {
+        type: "object",
+        properties: {
+          message: { type: "string" },
+        },
+      },
+    },
+  },
+};
 
 export default function authRoute(
   fastify: FastifyInstance,

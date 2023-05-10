@@ -56,5 +56,8 @@ export const login = async (req: FastifyRequest, reply: FastifyReply) => {
 };
 
 export const logout = async (req: FastifyRequest, reply: FastifyReply) => {
-  reply.send(req.cookies.accessToken);
+  return reply
+    .clearCookie("accessToken", { sameSite: "none", secure: true })
+    .code(200)
+    .send({ message: "User has been logged out." });
 };
