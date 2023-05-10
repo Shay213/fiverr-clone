@@ -9,29 +9,31 @@ interface LoginBody {
 
 export const register = async (req: FastifyRequest, reply: FastifyReply) => {
   const body = req.body as User;
+  const { sendError, sendSuccess } = req.server.replyHelpers;
   const hash = bcrypt.hashSync(body.password, 6);
   try {
-    const newUser = await req.server.prisma.user.create({
+    await req.server.prisma.user.create({
       data: { ...body, password: hash },
     });
-    reply.code(201).send({ message: "User has been created." });
+    return sendSuccess(reply, "User has been created.", 201);
   } catch (error) {
-    reply.code(500).send("Something went wrong!");
+    return sendError(reply, "Something went wrong!", 500);
   }
 };
 
 export const login = async (req: FastifyRequest, reply: FastifyReply) => {
   const body = req.body as LoginBody;
+  const { sendError } = req.server.replyHelpers;
   try {
     const user = await req.server.prisma.user.findUnique({
       where: {
         username: body.username,
       },
     });
-    if (!user) return reply.code(404).send("User not found!");
+    if (!user) return sendError(reply, "User not found!", 404);
 
     const isCorrect = bcrypt.compareSync(body.password, user.password);
-    if (!isCorrect) return reply.code(400).send("Wrong password or username!");
+    if (!isCorrect) return sendError(reply, "Wrong password or username!", 400);
 
     const payload = {
       id: user.id,
@@ -49,7 +51,7 @@ export const login = async (req: FastifyRequest, reply: FastifyReply) => {
       .code(200)
       .send(rest);
   } catch (error) {
-    reply.code(500).send("Something went wrong!");
+    return sendError(reply, "Something went wrong!", 500);
   }
 };
 

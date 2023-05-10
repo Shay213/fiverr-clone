@@ -4,6 +4,7 @@ import Fastify from "fastify";
 import prismaPlugin from "./plugins/prisma";
 import cookie from "@fastify/cookie";
 import jwtPlugin from "./plugins/jwt";
+import replyMessagePlugin from "./plugins/replyMessage";
 
 // routes
 import userRoute from "./routes/user.route";
@@ -21,6 +22,7 @@ const { PORT } = process.env;
 fastify.register(prismaPlugin);
 fastify.register(jwtPlugin);
 fastify.register(cookie);
+fastify.register(replyMessagePlugin);
 
 // routes
 fastify.register(userRoute, { prefix: "/api/users" });

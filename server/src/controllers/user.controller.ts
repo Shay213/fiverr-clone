@@ -13,10 +13,10 @@ export const deleteUser = async (
       id: req.params.id,
     },
   });
-
-  if (!user) return reply.code(400).send("User doesn't exist!");
+  const { sendError, sendSuccess } = req.server.replyHelpers;
+  if (!user) return sendError(reply, "User doesn't exist!", 400);
   if (req.payload.id !== user.id) {
-    return reply.code(403).send("You can delete only your account!");
+    return sendError(reply, "You can delete only your account!", 403);
   }
 
   await req.server.prisma.user.delete({
@@ -25,5 +25,5 @@ export const deleteUser = async (
     },
   });
 
-  return reply.code(200).send({ message: "Account deleted!" });
+  return sendSuccess(reply, "Account deleted!", 200);
 };
