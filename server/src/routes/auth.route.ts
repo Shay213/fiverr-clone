@@ -49,7 +49,7 @@ const loginOpts = {
       200: {
         type: "object",
         properties: {
-          rest,
+          ...rest,
           id: { type: "string" },
         },
       },
