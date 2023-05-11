@@ -20,13 +20,13 @@ export const createGig = async (req: FastifyRequest, reply: FastifyReply) => {
   }
 };
 
-interface DeleteParams {
+interface Params {
   id: string;
 }
 
 export const deleteGig = async (req: FastifyRequest, reply: FastifyReply) => {
   const { sendError, sendSuccess } = req.server.replyHelpers;
-  const params = req.params as DeleteParams;
+  const params = req.params as Params;
   try {
     const gig = await req.server.prisma.gig.findUnique({
       where: {
@@ -47,6 +47,57 @@ export const deleteGig = async (req: FastifyRequest, reply: FastifyReply) => {
   }
 };
 
-export const getGig = async (req: FastifyRequest, reply: FastifyReply) => {};
+export const getGig = async (req: FastifyRequest, reply: FastifyReply) => {
+  const { sendError } = req.server.replyHelpers;
+  const params = req.params as Params;
 
-export const getGigs = async (req: FastifyRequest, reply: FastifyReply) => {};
+  try {
+    const gig = await req.server.prisma.gig.findUnique({
+      where: {
+        id: params.id,
+      },
+    });
+    if (!gig) return sendError(reply, "Gig not found!", 404);
+    return reply.code(200).send(gig);
+  } catch (error: any) {
+    return sendError(reply, error.message, 500);
+  }
+};
+
+interface Query {
+  userId?: string;
+  cat?: string;
+  min?: number;
+  max?: number;
+  search?: string;
+}
+
+enum Mode {
+  INSENSITIVE = "insensitive",
+  DEFAULT = "default",
+}
+
+export const getGigs = async (req: FastifyRequest, reply: FastifyReply) => {
+  const { sendError } = req.server.replyHelpers;
+  const q = req.query as Query;
+
+  const filters = {
+    ...(q.userId && { user: { id: q.userId } }),
+    ...(q.cat && { category: q.cat }),
+    ...((q.min || q.max) && {
+      price: { ...(q.min && { gt: q.min }), ...(q.max && { lt: q.max }) },
+    }),
+    ...(q.search && { title: { contains: q.search, mode: Mode.INSENSITIVE } }),
+  };
+
+  try {
+    const gigs = await req.server.prisma.gig.findMany({
+      where: {
+        ...filters,
+      },
+    });
+    return reply.code(200).send(gigs);
+  } catch (error: any) {
+    return sendError(reply, error.message, 500);
+  }
+};
