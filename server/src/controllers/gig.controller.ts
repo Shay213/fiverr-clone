@@ -20,7 +20,32 @@ export const createGig = async (req: FastifyRequest, reply: FastifyReply) => {
   }
 };
 
-export const deleteGig = async (req: FastifyRequest, reply: FastifyReply) => {};
+interface DeleteParams {
+  id: string;
+}
+
+export const deleteGig = async (req: FastifyRequest, reply: FastifyReply) => {
+  const { sendError, sendSuccess } = req.server.replyHelpers;
+  const params = req.params as DeleteParams;
+  try {
+    const gig = await req.server.prisma.gig.findUnique({
+      where: {
+        id: params.id,
+      },
+    });
+    if (gig?.userId !== req.payload.userId)
+      return sendError(reply, "You can delete only your gig!", 403);
+
+    await req.server.prisma.gig.delete({
+      where: {
+        id: params.id,
+      },
+    });
+    return sendSuccess(reply, "Gig has been deleted!", 200);
+  } catch (error: any) {
+    return sendError(reply, error.message, 500);
+  }
+};
 
 export const getGig = async (req: FastifyRequest, reply: FastifyReply) => {};
 

@@ -61,6 +61,24 @@ const createGigSchema = {
   },
 };
 
+const deleteGigSchema = {
+  params: {
+    type: "object",
+    properties: {
+      id: { type: "string" },
+    },
+    required: ["id"],
+  },
+  response: {
+    200: {
+      type: "object",
+      properties: {
+        message: { type: "string" },
+      },
+    },
+  },
+};
+
 export default function gigRoute(
   fastify: FastifyInstance,
   options: object,
@@ -71,7 +89,11 @@ export default function gigRoute(
     { onRequest: [fastify.authenticate], schema: createGigSchema },
     createGig
   );
-  fastify.delete("/:id", { onRequest: [fastify.authenticate] }, deleteGig);
+  fastify.delete(
+    "/:id",
+    { onRequest: [fastify.authenticate], schema: deleteGigSchema },
+    deleteGig
+  );
   fastify.get("/single/:id", { onRequest: [fastify.authenticate] }, getGig);
   fastify.get("/", { onRequest: [fastify.authenticate] }, getGigs);
   done();
