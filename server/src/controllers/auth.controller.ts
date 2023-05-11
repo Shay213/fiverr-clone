@@ -36,7 +36,7 @@ export const login = async (req: FastifyRequest, reply: FastifyReply) => {
     if (!isCorrect) return sendError(reply, "Wrong password or username!", 400);
 
     const payload = {
-      id: user.id,
+      userId: user.id,
       isSeller: user.isSeller,
     };
 
