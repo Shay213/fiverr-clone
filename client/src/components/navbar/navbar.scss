@@ -12,6 +12,18 @@
   &.active {
     background-color: #fff;
     color: #000;
+    .container {
+      .links {
+        button {
+          border-color: #1dbf73;
+          color: #1dbf73;
+
+          &:hover {
+            color: #fff;
+          }
+        }
+      }
+    }
   }
 
   .container {

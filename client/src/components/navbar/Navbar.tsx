@@ -1,6 +1,10 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import "./navbar.scss";
 import { useEffect, useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+import newRequest from "../../utils/newRequest";
+
+const { BASE_URL } = import.meta.env;
 
 export default function Navbar() {
   const [active, setActive] = useState(false);
@@ -8,11 +12,8 @@ export default function Navbar() {
 
   const { pathname } = useLocation();
 
-  const currUser = {
-    id: 1,
-    username: "John Doe",
-    isSeller: true,
-  };
+  const strCurrUser = localStorage.getItem("currentUser");
+  const currUser = strCurrUser ? JSON.parse(strCurrUser) : null;
 
   const isActive = () => {
     window.scrollY > 0 ? setActive(true) : setActive(false);
@@ -25,6 +26,21 @@ export default function Navbar() {
       window.removeEventListener("scroll", isActive);
     };
   }, []);
+
+  const navigate = useNavigate();
+
+  const mutation = useMutation({
+    mutationFn: () => newRequest.post("/auth/logout"),
+    onSuccess: () => {
+      localStorage.removeItem("currentUser");
+      navigate("/");
+    },
+    onError: (err) => console.log(err),
+  });
+
+  const handleLogout = () => {
+    mutation.mutate();
+  };
 
   return (
     <div className={active || pathname !== "/" ? "navbar active" : "navbar"}>
@@ -41,11 +57,15 @@ export default function Navbar() {
           <span>English</span>
           <span>Sign in</span>
           {!currUser?.isSeller && <span>Become a Seller</span>}
-          {!currUser && <button>Join</button>}
+          {!currUser && (
+            <Link className="link" to="/register">
+              <button>Join</button>
+            </Link>
+          )}
           {currUser && (
             <div className="user" onClick={() => setOpen(!open)}>
               <img
-                src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                src={BASE_URL + (currUser.img || "img/noavatar.jpg")}
                 alt=""
               />
               <span>{currUser?.username}</span>
@@ -67,9 +87,9 @@ export default function Navbar() {
                   <Link to="/messages" className="link">
                     Messages
                   </Link>
-                  <Link to="/" className="link">
+                  <span className="link" onClick={handleLogout}>
                     Logout
-                  </Link>
+                  </span>
                 </div>
               )}
             </div>
