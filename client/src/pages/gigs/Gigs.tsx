@@ -31,6 +31,10 @@ interface Gig {
   totalStars: number;
   updatedAt: string;
   userId: string;
+  user: {
+    username: string;
+    img: string;
+  };
 }
 
 export default function Gigs() {
@@ -42,7 +46,7 @@ export default function Gigs() {
   const { search } = useLocation();
 
   const { isLoading, error, data, refetch } = useQuery({
-    queryKey: [""],
+    queryKey: ["gigs"],
     queryFn: () =>
       newRequest
         .get(
@@ -67,7 +71,7 @@ export default function Gigs() {
   useEffect(() => {
     refetch();
   }, [sort]);
-
+  console.log(data);
   return (
     <div className="gigs">
       <div className="container">

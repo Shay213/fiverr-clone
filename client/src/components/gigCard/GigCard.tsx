@@ -9,22 +9,30 @@ interface ItemProps {
   desc: string;
   starNumber: number;
   price: number;
+  totalStars: number;
+  user: {
+    username: string;
+    img: string;
+  };
 }
 
 export default function GigCard({ item }: { item: ItemProps }) {
   return (
     <Link to="/gig/123" className="link">
       <div className="gigCard">
-        <img src={item.images[0]} alt="" />
+        <img src={item.cover} alt="" />
         <div className="info">
           <div className="user">
-            <img src={item.cover} alt="" />
-            <span>Test username</span>
+            <img src={item.user.img || BASE_URL + "img/noavatar.jpg"} alt="" />
+            <span>{item.user.username}</span>
           </div>
           <p>{item.desc}</p>
           <div className="star">
             <img src={BASE_URL + "img/star.png"} alt="" />
-            <span>{item.starNumber}</span>
+            <span>
+              {!isNaN(item.totalStars / item.starNumber) &&
+                Math.round(item.totalStars / item.starNumber)}
+            </span>
           </div>
         </div>
         <hr />
