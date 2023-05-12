@@ -55,7 +55,9 @@ export default function Navbar() {
           <span>Fiverr Business</span>
           <span>Explore</span>
           <span>English</span>
-          <span>Sign in</span>
+          <Link to="/login" className="link">
+            <span>Sign in</span>
+          </Link>
           {!currUser?.isSeller && <span>Become a Seller</span>}
           {!currUser && (
             <Link className="link" to="/register">

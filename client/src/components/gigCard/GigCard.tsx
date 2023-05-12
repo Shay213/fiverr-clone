@@ -4,12 +4,10 @@ import "./gigCard.scss";
 const { BASE_URL } = import.meta.env;
 
 interface ItemProps {
-  id: number;
-  img: string;
-  pp: string;
-  username: string;
+  images: string[];
+  cover: string;
   desc: string;
-  star: number;
+  starNumber: number;
   price: number;
 }
 
@@ -17,16 +15,16 @@ export default function GigCard({ item }: { item: ItemProps }) {
   return (
     <Link to="/gig/123" className="link">
       <div className="gigCard">
-        <img src={item.img} alt="" />
+        <img src={item.images[0]} alt="" />
         <div className="info">
           <div className="user">
-            <img src={item.pp} alt="" />
-            <span>{item.username}</span>
+            <img src={item.cover} alt="" />
+            <span>Test username</span>
           </div>
           <p>{item.desc}</p>
           <div className="star">
             <img src={BASE_URL + "img/star.png"} alt="" />
-            <span>{item.star}</span>
+            <span>{item.starNumber}</span>
           </div>
         </div>
         <hr />
