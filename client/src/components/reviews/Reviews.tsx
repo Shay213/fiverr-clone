@@ -7,10 +7,25 @@ interface ReviewsProps {
   gigId: string;
 }
 
+export interface IReview {
+  id: string;
+  gigId: string;
+  userId: string;
+  star: string;
+  description: string;
+  createdAt: string;
+  updatedAt: string;
+  user: {
+    username: string;
+    img: string;
+    country: string;
+  };
+}
+
 export default function Reviews({ gigId }: ReviewsProps) {
   const { isLoading, error, data } = useQuery({
     queryKey: ["reviews"],
-    queryFn: () => newRequest.get(`/reviews${gigId}`).then((res) => res.data),
+    queryFn: () => newRequest.get(`/reviews/${gigId}`).then((res) => res.data),
   });
 
   console.log(data);
@@ -22,7 +37,9 @@ export default function Reviews({ gigId }: ReviewsProps) {
         ? "Loading..."
         : error
         ? "Something went wrong!"
-        : data.map((review) => <Review key={review.id} review={review} />)}
+        : data.map((review: IReview) => (
+            <Review key={review.id} review={review} />
+          ))}
     </div>
   );
 }

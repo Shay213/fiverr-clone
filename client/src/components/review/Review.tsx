@@ -1,41 +1,46 @@
 import "./review.scss";
+import type { IReview } from "../reviews/Reviews";
 
 const { BASE_URL } = import.meta.env;
 
-export default function Review({ review }) {
+enum Star {
+  ONE = 1,
+  TWO,
+  THREE,
+  FOUR,
+  FIVE,
+}
+
+export default function Review({ review }: { review: IReview }) {
+  const starNum = Star[review.star as keyof typeof Star];
   return (
     <div className="review">
       <div className="user">
         <img
           className="reviewPP"
-          src="https://images.pexels.com/photos/3695799/pexels-photo-3695799.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+          src={review.user.img || BASE_URL + "img/noavatar.jpg"}
           alt=""
         />
         <div className="info">
-          <span>John Doe</span>
+          <span>{review.user.username}</span>
           <div className="country">
             <img
               src="https://images.pexels.com/photos/4386429/pexels-photo-4386429.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
               alt=""
             />
-            <span>United States</span>
+            <span>{review.user.country}</span>
           </div>
         </div>
       </div>
       <div className="stars">
-        <img src={BASE_URL + "img/star.png"} alt="" />
-        <img src={BASE_URL + "img/star.png"} alt="" />
-        <img src={BASE_URL + "img/star.png"} alt="" />
-        <img src={BASE_URL + "img/star.png"} alt="" />
-        <img src={BASE_URL + "img/star.png"} alt="" />
-        <span>5</span>
+        {Array(starNum)
+          .fill(0)
+          .map((el, i) => (
+            <img src={BASE_URL + "img/star.png"} alt="" key={i} />
+          ))}
+        <span>{starNum}</span>
       </div>
-      <p>
-        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Enim totam
-        ratione eum itaque soluta quis, accusantium aliquid ea illo, dolore
-        earum deserunt natus. Quidem accusamus voluptates corporis quis,
-        molestiae fugit.
-      </p>
+      <p>{review.description}</p>
       <div className="helpful">
         <span>Helpful?</span>
         <img src={BASE_URL + "img/like.png"} alt="" />
