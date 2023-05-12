@@ -94,6 +94,16 @@ const getGigSchema = {
         id: { type: "string" },
         userId: { type: "string" },
         ...properties,
+        user: {
+          type: "object",
+          properties: {
+            username: { type: "string" },
+            img: { type: "string" },
+            country: { type: "string" },
+            desc: { type: "string" },
+            createdAt: { type: "string", format: "date-time" },
+          },
+        },
       },
     },
   },
@@ -108,6 +118,7 @@ const getGigsSchema = {
       min: { type: "number" },
       max: { type: "number" },
       search: { type: "string" },
+      sort: { type: "string" },
     },
   },
   response: {
@@ -119,6 +130,13 @@ const getGigsSchema = {
           id: { type: "string" },
           userId: { type: "string" },
           ...properties,
+          user: {
+            type: "object",
+            properties: {
+              username: { type: "string" },
+              img: { type: "string" },
+            },
+          },
         },
       },
     },
@@ -140,15 +158,7 @@ export default function gigRoute(
     { onRequest: [fastify.authenticate], schema: deleteGigSchema },
     deleteGig
   );
-  fastify.get(
-    "/single/:id",
-    { onRequest: [fastify.authenticate], schema: getGigSchema },
-    getGig
-  );
-  fastify.get(
-    "/",
-    { onRequest: [fastify.authenticate], schema: getGigsSchema },
-    getGigs
-  );
+  fastify.get("/single/:id", { schema: getGigSchema }, getGig);
+  fastify.get("/", { schema: getGigsSchema }, getGigs);
   done();
 }

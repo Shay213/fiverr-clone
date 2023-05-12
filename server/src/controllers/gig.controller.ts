@@ -56,6 +56,17 @@ export const getGig = async (req: FastifyRequest, reply: FastifyReply) => {
       where: {
         id: params.id,
       },
+      include: {
+        user: {
+          select: {
+            username: true,
+            img: true,
+            createdAt: true,
+            country: true,
+            desc: true,
+          },
+        },
+      },
     });
     if (!gig) return sendError(reply, "Gig not found!", 404);
     return reply.code(200).send(gig);
@@ -70,11 +81,17 @@ interface Query {
   min?: number;
   max?: number;
   search?: string;
+  sort?: string;
 }
 
-enum Mode {
+enum SearchMode {
   INSENSITIVE = "insensitive",
   DEFAULT = "default",
+}
+
+enum SortMode {
+  ASC = "asc",
+  DESC = "desc",
 }
 
 export const getGigs = async (req: FastifyRequest, reply: FastifyReply) => {
@@ -87,7 +104,15 @@ export const getGigs = async (req: FastifyRequest, reply: FastifyReply) => {
     ...((q.min || q.max) && {
       price: { ...(q.min && { gt: q.min }), ...(q.max && { lt: q.max }) },
     }),
-    ...(q.search && { title: { contains: q.search, mode: Mode.INSENSITIVE } }),
+    ...(q.search && {
+      title: { contains: q.search, mode: SearchMode.INSENSITIVE },
+    }),
+  };
+
+  const sort = {
+    orderBy: {
+      ...(q.sort && { [q.sort]: SortMode.DESC }),
+    },
   };
 
   try {
@@ -95,7 +120,12 @@ export const getGigs = async (req: FastifyRequest, reply: FastifyReply) => {
       where: {
         ...filters,
       },
+      ...sort,
+      include: {
+        user: { select: { username: true, img: true } },
+      },
     });
+    console.log(gigs);
     return reply.code(200).send(gigs);
   } catch (error: any) {
     return sendError(reply, error.message, 500);
