@@ -64,15 +64,11 @@ export default function Reviews({ gigId }: ReviewsProps) {
         : error
         ? "Something went wrong!"
         : data.map((review: IReview, i: number) => (
-            <Review
-              key={review.id}
-              review={review}
-              addHr={i < data.length - 1}
-            />
+            <Review key={review.id} review={review} />
           ))}
       <div className="add">
         <h3>Add a review</h3>
-        <form action="" onSubmit={handleSubmit}>
+        <form action="" onSubmit={handleSubmit} className="addForm">
           <input type="text" placeholder="Write your opinion" />
           <select name="" id="">
             <option value="1">1</option>
