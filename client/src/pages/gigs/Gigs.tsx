@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./gigs.scss";
 import GigCard from "../../components/gigCard/GigCard";
 import { useQuery } from "@tanstack/react-query";
@@ -41,11 +41,6 @@ export default function Gigs() {
 
   const { search } = useLocation();
 
-  const reSort = (type: Sort) => {
-    setSort(type);
-    setOpen(false);
-  };
-
   const { isLoading, error, data, refetch } = useQuery({
     queryKey: [""],
     queryFn: () =>
@@ -53,14 +48,25 @@ export default function Gigs() {
         .get(
           `/gigs${search}${
             minRef.current?.value && "&min=" + minRef.current.value
-          }${maxRef.current?.value && "&max=" + maxRef.current.value}`
+          }${
+            maxRef.current?.value && "&max=" + maxRef.current.value
+          }&sort=${sort}`
         )
         .then((res) => res.data),
   });
 
+  const reSort = (type: Sort) => {
+    setSort(type);
+    setOpen(false);
+  };
+
   const apply = () => {
     refetch();
   };
+
+  useEffect(() => {
+    refetch();
+  }, [sort]);
 
   return (
     <div className="gigs">
