@@ -46,7 +46,22 @@ const getReviewsSchema = {
   response: {
     200: {
       type: "array",
-      items: [{ type: "object", properties: { ...review } }],
+      items: [
+        {
+          type: "object",
+          properties: {
+            ...review,
+            user: {
+              type: "object",
+              properties: {
+                username: { type: "string" },
+                img: { type: "string" },
+                country: { type: "string" },
+              },
+            },
+          },
+        },
+      ],
     },
   },
 };

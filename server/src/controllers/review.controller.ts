@@ -75,6 +75,15 @@ export const getReviews = async (req: FastifyRequest, reply: FastifyReply) => {
       where: {
         gigId: gigId,
       },
+      include: {
+        user: {
+          select: {
+            username: true,
+            img: true,
+            country: true,
+          },
+        },
+      },
     });
     return reply.code(200).send(reviews);
   } catch (error: any) {
