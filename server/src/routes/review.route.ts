@@ -39,29 +39,27 @@ const getReviewsSchema = {
   params: {
     type: "object",
     properties: {
-      id: { type: "string" },
+      gigId: { type: "string" },
     },
-    required: ["id"],
+    required: ["gigId"],
   },
   response: {
     200: {
       type: "array",
-      items: [
-        {
-          type: "object",
-          properties: {
-            ...review,
-            user: {
-              type: "object",
-              properties: {
-                username: { type: "string" },
-                img: { type: "string" },
-                country: { type: "string" },
-              },
+      items: {
+        type: "object",
+        properties: {
+          ...review,
+          user: {
+            type: "object",
+            properties: {
+              username: { type: "string" },
+              img: { type: "string" },
+              country: { type: "string" },
             },
           },
         },
-      ],
+      },
     },
   },
 };
@@ -78,7 +76,7 @@ export default function reviewRoute(
     { onRequest: [fastify.authenticate], schema: createReviewSchema },
     createReview
   );
-  fastify.get("/:id", { schema: getReviewsSchema }, getReviews);
+  fastify.get("/:gigId", { schema: getReviewsSchema }, getReviews);
   fastify.delete(
     "/:id",
     { onRequest: [fastify.authenticate], schema: deleteReviewSchema },

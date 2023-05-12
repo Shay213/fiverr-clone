@@ -14,12 +14,17 @@ enum Star {
   FIVE,
 }
 
+interface Payload {
+  isSeller: boolean;
+  userId: string;
+}
+
 export const createReview = async (
   req: FastifyRequest,
   reply: FastifyReply
 ) => {
   const { sendError } = req.server.replyHelpers;
-  const { isSeller, userId } = req.payload;
+  const { isSeller, userId } = req.payload as Payload;
   const { gigId, description, star } = req.body as CreateReviewBody;
 
   if (isSeller) return sendError(reply, "Sellers can't create a review!", 403);
@@ -36,14 +41,14 @@ export const createReview = async (
     if (review)
       return sendError(reply, "You have already created a review!", 403);
 
-    const starStr = Star[star];
+    const starStr = Star[star] as keyof typeof Star;
 
     const newReview = await req.server.prisma.review.create({
       data: {
         user: { connect: { id: userId } },
         gig: { connect: { id: gigId } },
         description: description,
-        star: starStr as keyof typeof Star,
+        star: starStr,
       },
     });
 

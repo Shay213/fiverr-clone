@@ -11,10 +11,10 @@ export default function Gig() {
   const { id } = useParams();
 
   const { isLoading, error, data } = useQuery({
-    queryKey: ["gig"],
+    queryKey: [`gig${id}`],
     queryFn: () => newRequest.get(`gigs/single/${id}`).then((res) => res.data),
   });
-  console.log(data);
+
   return (
     <div className="gig">
       {isLoading ? (

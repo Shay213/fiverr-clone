@@ -11,7 +11,13 @@ enum Star {
   FIVE,
 }
 
-export default function Review({ review }: { review: IReview }) {
+export default function Review({
+  review,
+  addHr,
+}: {
+  review: IReview;
+  addHr: boolean;
+}) {
   const starNum = Star[review.star as keyof typeof Star];
   return (
     <div className="review">
@@ -48,6 +54,7 @@ export default function Review({ review }: { review: IReview }) {
         <img src={BASE_URL + "img/dislike.png"} alt="" />
         <span>No</span>
       </div>
+      {addHr && <hr />}
     </div>
   );
 }

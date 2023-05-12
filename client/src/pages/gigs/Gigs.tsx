@@ -71,7 +71,7 @@ export default function Gigs() {
   useEffect(() => {
     refetch();
   }, [sort]);
-  console.log(data);
+
   return (
     <div className="gigs">
       <div className="container">

@@ -62,9 +62,9 @@ model Gig {
 model Review {
   id          String   @id @default(uuid())
   gig         Gig      @relation(fields: [gigId], references: [id])
-  gigId       String   @unique @map("gig_id")
+  gigId       String   @map("gig_id")
   user        User     @relation(fields: [userId], references: [id])
-  userId      String   @unique @map("user_id")
+  userId      String   @map("user_id")
   star        Star
   description String
   createdAt   DateTime @default(now()) @map("created_at")
