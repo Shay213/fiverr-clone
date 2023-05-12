@@ -4,6 +4,7 @@ import "./gigCard.scss";
 const { BASE_URL } = import.meta.env;
 
 interface ItemProps {
+  id: string;
   images: string[];
   cover: string;
   desc: string;
@@ -18,7 +19,7 @@ interface ItemProps {
 
 export default function GigCard({ item }: { item: ItemProps }) {
   return (
-    <Link to="/gig/123" className="link">
+    <Link to={`/gig/${item.id}`} className="link">
       <div className="gigCard">
         <img src={item.cover} alt="" />
         <div className="info">

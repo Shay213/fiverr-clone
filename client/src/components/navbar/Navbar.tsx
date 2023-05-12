@@ -66,10 +66,7 @@ export default function Navbar() {
           )}
           {currUser && (
             <div className="user" onClick={() => setOpen(!open)}>
-              <img
-                src={BASE_URL + (currUser.img || "img/noavatar.jpg")}
-                alt=""
-              />
+              <img src={currUser.img || BASE_URL + "img/noavatar.jpg"} alt="" />
               <span>{currUser?.username}</span>
               {open && (
                 <div className="options">
