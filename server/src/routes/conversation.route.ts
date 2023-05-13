@@ -49,6 +49,10 @@ const UpdateConversationSchema = {
   },
 };
 
+const GetSingleConversationSchema = {
+  ...UpdateConversationSchema,
+};
+
 export default function conversationRoute(
   fastify: FastifyInstance,
   options: object,
@@ -67,7 +71,7 @@ export default function conversationRoute(
   fastify.get("/", { onRequest: [fastify.authenticate] }, getConversations);
   fastify.get(
     "/single/:id",
-    { onRequest: [fastify.authenticate] },
+    { onRequest: [fastify.authenticate], schema: GetSingleConversationSchema },
     getSingleConversation
   );
   done();

@@ -9,6 +9,10 @@ interface GetConversationsBody {
   to: string;
 }
 
+interface Params {
+  id: string;
+}
+
 export const createConversation = async (
   req: FastifyRequest,
   reply: FastifyReply
@@ -45,18 +49,27 @@ export const getConversations = async (
 export const getSingleConversation = async (
   req: FastifyRequest,
   reply: FastifyReply
-) => {};
-
-interface UpdateConversationParams {
-  id: string;
-}
+) => {
+  const { sendError } = req.server.replyHelpers;
+  const { id } = req.params as Params;
+  try {
+    const conversation = await req.server.prisma.conversation.findUnique({
+      where: {
+        id: id,
+      },
+    });
+    return reply.code(200).send(conversation);
+  } catch (error: any) {
+    return sendError(reply, error.message, 500);
+  }
+};
 
 export const updateConversation = async (
   req: FastifyRequest,
   reply: FastifyReply
 ) => {
   const { sendError } = req.server.replyHelpers;
-  const { id } = req.params as UpdateConversationParams;
+  const { id } = req.params as Params;
   const { isSeller } = req.payload as Payload;
   try {
     const updatedConversation = await req.server.prisma.conversation.update({
