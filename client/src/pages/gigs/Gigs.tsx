@@ -12,7 +12,7 @@ enum Sort {
   SALES = "sales",
 }
 
-interface Gig {
+export interface Gig {
   id: string;
   category: string;
   cover: string;
