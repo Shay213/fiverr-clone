@@ -13,6 +13,8 @@ import Messages from "./pages/messages/Messages";
 import Message from "./pages/message/Message";
 import Login from "./pages/login/Login";
 import Register from "./pages/register/Register";
+import Success from "./pages/success/Success";
+import Pay from "./pages/pay/Pay";
 
 function App() {
   const Layout = () => (
@@ -37,6 +39,8 @@ function App() {
           <Route path="/message/:id" element={<Message />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/pay/:id" element={<Pay />} />
+          <Route path="/success" element={<Success />} />
         </Route>
       </Routes>
     </div>

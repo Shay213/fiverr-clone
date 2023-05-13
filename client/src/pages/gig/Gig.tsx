@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import MySlider from "../../components/slider/MySlider";
 import "./gig.scss";
 import newRequest from "../../utils/newRequest";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Reviews from "../../components/reviews/Reviews";
 
 const { BASE_URL } = import.meta.env;
@@ -144,7 +144,9 @@ export default function Gig() {
                 </div>
               ))}
             </div>
-            <button>Continue</button>
+            <Link to={`/pay/${id}`} className="link">
+              <button>Continue</button>
+            </Link>
           </div>
         </div>
       )}

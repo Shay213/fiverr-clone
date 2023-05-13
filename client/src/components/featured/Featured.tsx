@@ -1,8 +1,17 @@
+import { ChangeEvent, useState } from "react";
 import "./featured.scss";
+import { useNavigate } from "react-router-dom";
 
 const { BASE_URL } = import.meta.env;
 
 export default function Featured() {
+  const [input, setInput] = useState("");
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(`/gigs?search=${input}`);
+  };
+
   return (
     <div className="featured">
       <div className="container">
@@ -13,9 +22,15 @@ export default function Featured() {
           <div className="search">
             <div className="searchInput">
               <img src={BASE_URL + "img/search.png"} alt="" />
-              <input type="text" placeholder='Try "building mobile app"' />
+              <input
+                type="text"
+                placeholder='Try "building mobile app"'
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  setInput(e.target.value)
+                }
+              />
             </div>
-            <button>Search</button>
+            <button onClick={handleClick}>Search</button>
           </div>
           <div className="popular">
             <span>Popular:</span>

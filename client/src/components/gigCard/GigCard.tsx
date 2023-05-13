@@ -11,6 +11,7 @@ interface ItemProps {
   starNumber: number;
   price: number;
   totalStars: number;
+  title: string;
   user: {
     username: string;
     img: string;
@@ -27,6 +28,7 @@ export default function GigCard({ item }: { item: ItemProps }) {
             <img src={item.user.img || BASE_URL + "img/noavatar.jpg"} alt="" />
             <span>{item.user.username}</span>
           </div>
+          <p style={{ fontWeight: 700 }}>{item.title}</p>
           <p>{item.desc}</p>
           <div className="star">
             <img src={BASE_URL + "img/star.png"} alt="" />
