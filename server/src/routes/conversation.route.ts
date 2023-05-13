@@ -53,6 +53,18 @@ const GetSingleConversationSchema = {
   ...UpdateConversationSchema,
 };
 
+const GetConversationsSchema = {
+  response: {
+    200: {
+      type: "array",
+      items: {
+        type: "object",
+        properties: Conversation,
+      },
+    },
+  },
+};
+
 export default function conversationRoute(
   fastify: FastifyInstance,
   options: object,
@@ -68,7 +80,11 @@ export default function conversationRoute(
     { onRequest: [fastify.authenticate], schema: UpdateConversationSchema },
     updateConversation
   );
-  fastify.get("/", { onRequest: [fastify.authenticate] }, getConversations);
+  fastify.get(
+    "/",
+    { onRequest: [fastify.authenticate], schema: GetConversationsSchema },
+    getConversations
+  );
   fastify.get(
     "/single/:id",
     { onRequest: [fastify.authenticate], schema: GetSingleConversationSchema },

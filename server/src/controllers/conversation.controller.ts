@@ -44,7 +44,20 @@ export const createConversation = async (
 export const getConversations = async (
   req: FastifyRequest,
   reply: FastifyReply
-) => {};
+) => {
+  const { sendError } = req.server.replyHelpers;
+  const { isSeller, userId } = req.payload as Payload;
+  try {
+    const conversations = await req.server.prisma.conversation.findMany({
+      where: {
+        ...(isSeller ? { sellerId: userId } : { buyerId: userId }),
+      },
+    });
+    return reply.code(200).send(conversations);
+  } catch (error: any) {
+    return sendError(reply, error.message, 500);
+  }
+};
 
 export const getSingleConversation = async (
   req: FastifyRequest,
