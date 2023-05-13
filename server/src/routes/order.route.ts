@@ -41,14 +41,12 @@ const getOrdersSchema = {
             properties: {
               username: { type: "string" },
             },
-            optional: true,
           },
           buyer: {
             type: "object",
             properties: {
               username: { type: "string" },
             },
-            optional: true,
           },
         },
       },

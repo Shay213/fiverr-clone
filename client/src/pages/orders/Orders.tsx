@@ -16,10 +16,10 @@ interface Order {
   paymentIntent: string;
   createdAt: Date;
   updatedAt: Date;
-  seller?: {
+  seller: {
     username: string;
   };
-  buyer?: {
+  buyer: {
     username: string;
   };
 }
@@ -59,13 +59,7 @@ export default function Orders() {
                 </td>
                 <td>{order.title}</td>
                 <td>{order.price}</td>
-                <td>
-                  {order.buyer
-                    ? order.buyer.username
-                    : order.seller
-                    ? order.seller.username
-                    : ""}
-                </td>
+                <td>{order.seller.username}</td>
                 <td>
                   <img
                     className="delete"

@@ -52,9 +52,8 @@ export const getOrders = async (req: FastifyRequest, reply: FastifyReply) => {
         },
       },
       include: {
-        ...(isSeller
-          ? { seller: { select: { username: true } } }
-          : { buyer: { select: { username: true } } }),
+        seller: { select: { username: true } },
+        buyer: { select: { username: true } },
       },
     });
     return reply.code(200).send(orders);
