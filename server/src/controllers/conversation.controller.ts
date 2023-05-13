@@ -47,7 +47,29 @@ export const getSingleConversation = async (
   reply: FastifyReply
 ) => {};
 
+interface UpdateConversationParams {
+  id: string;
+}
+
 export const updateConversation = async (
   req: FastifyRequest,
   reply: FastifyReply
-) => {};
+) => {
+  const { sendError } = req.server.replyHelpers;
+  const { id } = req.params as UpdateConversationParams;
+  const { isSeller } = req.payload as Payload;
+  try {
+    const updatedConversation = await req.server.prisma.conversation.update({
+      where: {
+        id: id,
+      },
+      data: {
+        readBySeller: isSeller,
+        readByBuyer: !isSeller,
+      },
+    });
+    return reply.code(200).send(updatedConversation);
+  } catch (error: any) {
+    return sendError(reply, error.message, 500);
+  }
+};
