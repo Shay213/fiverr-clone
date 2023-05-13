@@ -29,7 +29,9 @@ export default function GigCard({ item }: { item: ItemProps }) {
             <span>{item.user.username}</span>
           </div>
           <p style={{ fontWeight: 700 }}>{item.title}</p>
-          <p>{item.desc}</p>
+          <p style={{ height: "100px" }}>
+            {(item.desc ?? "").substring(0, 200)}...
+          </p>
           <div className="star">
             <img src={BASE_URL + "img/star.png"} alt="" />
             <span>
