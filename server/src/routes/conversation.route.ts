@@ -59,7 +59,21 @@ const GetConversationsSchema = {
       type: "array",
       items: {
         type: "object",
-        properties: Conversation,
+        properties: {
+          ...Conversation,
+          buyer: {
+            type: "object",
+            properties: {
+              username: { type: "string" },
+            },
+          },
+          seller: {
+            type: "object",
+            properties: {
+              username: { type: "string" },
+            },
+          },
+        },
       },
     },
   },
@@ -75,7 +89,7 @@ export default function conversationRoute(
     { onRequest: [fastify.authenticate], schema: CreateConversationSchema },
     createConversation
   );
-  fastify.post(
+  fastify.put(
     "/:id",
     { onRequest: [fastify.authenticate], schema: UpdateConversationSchema },
     updateConversation

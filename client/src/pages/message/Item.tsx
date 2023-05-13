@@ -1,18 +1,14 @@
 import "./item.scss";
+import type { Message } from "./Message";
 
-export default function Item({ isOwner }: { isOwner: boolean }) {
+export default function Item({ m }: { m: Message }) {
+  const strCurrUser = localStorage.getItem("currentUser");
+  const currUser = strCurrUser ? JSON.parse(strCurrUser) : null;
+
   return (
-    <div className={isOwner ? "item owner" : "item"}>
-      <img
-        src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-        alt=""
-      />
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae modi
-        explicabo repellendus, veritatis voluptatum maxime accusantium tempore
-        quos amet laudantium molestias quaerat culpa ipsam fugiat inventore iure
-        praesentium aspernatur dolorem?
-      </p>
+    <div className={currUser?.id === m?.userId ? "item owner" : "item"}>
+      <img src={m?.user?.img ?? ""} alt="" />
+      <p>{m?.description ?? ""}</p>
     </div>
   );
 }

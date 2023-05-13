@@ -28,13 +28,14 @@ export default function Messages() {
   const queryClient = useQueryClient();
 
   const { isLoading, error, data } = useQuery({
-    queryKey: ["messages"],
+    queryKey: ["conversations"],
     queryFn: () => newRequest.get("/conversations").then((res) => res.data),
   });
 
   const mutation = useMutation({
     mutationFn: (id: string) => newRequest.put(`/conversations/${id}`),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["messages"] }),
+    onSuccess: () =>
+      queryClient.invalidateQueries({ queryKey: ["conversations"] }),
   });
 
   const handleClick = (id: string) => {

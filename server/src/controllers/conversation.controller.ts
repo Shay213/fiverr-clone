@@ -52,6 +52,10 @@ export const getConversations = async (
       where: {
         ...(isSeller ? { sellerId: userId } : { buyerId: userId }),
       },
+      include: {
+        buyer: { select: { username: true } },
+        seller: { select: { username: true } },
+      },
     });
     return reply.code(200).send(conversations);
   } catch (error: any) {
@@ -90,8 +94,7 @@ export const updateConversation = async (
         id: id,
       },
       data: {
-        readBySeller: isSeller,
-        readByBuyer: !isSeller,
+        ...(isSeller ? { readBySeller: true } : { readByBuyer: true }),
       },
     });
     return reply.code(200).send(updatedConversation);
