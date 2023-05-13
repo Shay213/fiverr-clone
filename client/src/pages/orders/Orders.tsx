@@ -1,6 +1,7 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import "./orders.scss";
 import newRequest from "../../utils/newRequest";
+import { useNavigate } from "react-router-dom";
 
 const { BASE_URL } = import.meta.env;
 
@@ -24,14 +25,49 @@ interface Order {
   };
 }
 
+interface NewConv {
+  conversationId: string;
+  buyerId: string;
+  sellerId: string;
+}
+
 export default function Orders() {
   const strCurrUser = localStorage.getItem("currentUser");
   const currentUser = strCurrUser ? JSON.parse(strCurrUser) : null;
+
+  const navigate = useNavigate();
 
   const { isLoading, error, data } = useQuery({
     queryKey: ["orders"],
     queryFn: () => newRequest.get("/orders").then((res) => res.data),
   });
+
+  const mutation = useMutation({
+    mutationFn: (newConv: NewConv) =>
+      newRequest.get(`/conversations/single/${newConv.conversationId}`),
+    onError: async (err: any, newConv) => {
+      if (err.response.status === 404) {
+        try {
+          const res = await newRequest.post("/conversations/", {
+            to: currentUser.isSeller ? newConv.buyerId : newConv.sellerId,
+          });
+          navigate(`/message/${res.data.id}`);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    },
+    onSuccess: (res) => navigate(`/message/${res.data.id}`),
+  });
+
+  const handleContact = (order: Order) => {
+    const conversationId = order.sellerId + order.buyerId;
+    mutation.mutate({
+      conversationId,
+      buyerId: order.buyerId,
+      sellerId: order.sellerId,
+    });
+  };
 
   return (
     <div className="orders">
@@ -65,6 +101,7 @@ export default function Orders() {
                     className="delete"
                     src={BASE_URL + "img/message.png"}
                     alt=""
+                    onClick={() => handleContact(order)}
                   />
                 </td>
               </tr>

@@ -75,6 +75,7 @@ export const getSingleConversation = async (
         id: id,
       },
     });
+    if (!conversation) return sendError(reply, "Not found!", 404);
     return reply.code(200).send(conversation);
   } catch (error: any) {
     return sendError(reply, error.message, 500);
