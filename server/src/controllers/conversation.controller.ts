@@ -56,6 +56,9 @@ export const getConversations = async (
         buyer: { select: { username: true } },
         seller: { select: { username: true } },
       },
+      orderBy: {
+        updatedAt: "desc",
+      },
     });
     return reply.code(200).send(conversations);
   } catch (error: any) {

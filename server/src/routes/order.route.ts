@@ -1,5 +1,9 @@
 import { FastifyInstance } from "fastify";
-import { createOrder, getOrders } from "../controllers/order.controller.ts";
+import {
+  createOrder,
+  getOrders,
+  intent,
+} from "../controllers/order.controller.ts";
 const createOrderSchema = {
   params: {
     type: "object",
@@ -59,15 +63,20 @@ export default function orderRoute(
   options: object,
   done: () => void
 ) {
-  fastify.post(
+  /*fastify.post(    FOR TESTING PURPOSES
     "/:gigId",
     { onRequest: [fastify.authenticate], schema: createOrderSchema },
     createOrder
-  );
+  );*/
   fastify.get(
     "/",
     { onRequest: [fastify.authenticate], schema: getOrdersSchema },
     getOrders
+  );
+  fastify.post(
+    "/create-payment-intent/:id",
+    { onRequest: [fastify.authenticate] },
+    intent
   );
   done();
 }

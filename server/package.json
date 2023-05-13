@@ -23,7 +23,8 @@
     "dotenv": "^16.0.3",
     "fastify": "^4.17.0",
     "fastify-plugin": "^4.5.0",
-    "json-schema-to-ts": "^2.8.2"
+    "json-schema-to-ts": "^2.8.2",
+    "stripe": "^12.5.0"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
