@@ -10,34 +10,6 @@ interface Payload {
   userId: string;
 }
 
-export const createOrder = async (req: FastifyRequest, reply: FastifyReply) => {
-  const { sendError, sendSuccess } = req.server.replyHelpers;
-  const { gigId } = req.params as CreateOrderParams;
-  const { userId } = req.payload as Payload;
-  try {
-    const gig = await req.server.prisma.gig.findUnique({
-      where: {
-        id: gigId,
-      },
-    });
-    if (!gig) return sendError(reply, "Gig doesn't exist!", 404);
-    const order = await req.server.prisma.order.create({
-      data: {
-        gig: { connect: { id: gigId } },
-        img: gig.cover,
-        title: gig.title,
-        buyer: { connect: { id: userId } },
-        seller: { connect: { id: gig.userId } },
-        price: gig.price,
-        paymentIntent: "temporary",
-      },
-    });
-    return sendSuccess(reply, "Successful", 200);
-  } catch (error: any) {
-    return sendError(reply, error.message, 500);
-  }
-};
-
 export const getOrders = async (req: FastifyRequest, reply: FastifyReply) => {
   const { sendError } = req.server.replyHelpers;
   const { userId, isSeller } = req.payload as Payload;
@@ -63,8 +35,8 @@ export const getOrders = async (req: FastifyRequest, reply: FastifyReply) => {
   }
 };
 
-interface IntentBody {
-  id: string;
+interface IntentParams {
+  gigId: string;
 }
 
 export const intent = async (req: FastifyRequest, reply: FastifyReply) => {
@@ -72,12 +44,12 @@ export const intent = async (req: FastifyRequest, reply: FastifyReply) => {
   const STRIPE = process.env.STRIPE;
   if (!STRIPE) return sendError(reply, "Missing stripe secret!", 404);
   const stripe = new Stripe(STRIPE, { apiVersion: "2022-11-15" });
-  const { id } = req.body as IntentBody;
+  const { gigId } = req.params as IntentParams;
   const { userId } = req.payload as Payload;
   try {
     const gig = await req.server.prisma.gig.findUnique({
       where: {
-        id: id,
+        id: gigId,
       },
     });
     if (!gig) return sendError(reply, "Gig doesn't exist!", 404);
@@ -88,9 +60,10 @@ export const intent = async (req: FastifyRequest, reply: FastifyReply) => {
         enabled: true,
       },
     });
+
     const order = await req.server.prisma.order.create({
       data: {
-        gig: { connect: { id: gig.id } },
+        gig: { connect: { id: gigId } },
         img: gig.cover,
         title: gig.title,
         buyer: { connect: { id: userId } },
@@ -100,6 +73,28 @@ export const intent = async (req: FastifyRequest, reply: FastifyReply) => {
       },
     });
     return reply.code(200).send({ clientSecret: paymentIntent.client_secret });
+  } catch (error: any) {
+    return sendError(reply, error.message, 500);
+  }
+};
+
+interface ConfirmBody {
+  paymentIntent: string;
+}
+
+export const confirm = async (req: FastifyRequest, reply: FastifyReply) => {
+  const { sendError, sendSuccess } = req.server.replyHelpers;
+  let { paymentIntent } = req.body as ConfirmBody;
+  try {
+    await req.server.prisma.order.update({
+      where: {
+        paymentIntent: paymentIntent,
+      },
+      data: {
+        isCompleted: true,
+      },
+    });
+    return sendSuccess(reply, "Orders has been confirmed!", 200);
   } catch (error: any) {
     return sendError(reply, error.message, 500);
   }

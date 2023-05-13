@@ -93,7 +93,7 @@ model Order {
   buyer         User     @relation(name: "buyer", fields: [buyerId], references: [id])
   buyerId       String   @unique @map("buyer_id")
   isCompleted   Boolean? @default(false) @map("is_completed")
-  paymentIntent String   @map("payment_intent")
+  paymentIntent String   @unique @map("payment_intent")
   createdAt     DateTime @default(now()) @map("created_at")
   updatedAt     DateTime @default(now()) @map("updated_ at")
 
@@ -103,9 +103,9 @@ model Order {
 model Conversation {
   id           String    @id @default(uuid())
   seller       User      @relation(name: "sellerConversation", fields: [sellerId], references: [id])
-  sellerId     String    @unique @map("seller_id")
+  sellerId     String    @map("seller_id")
   buyer        User      @relation(name: "buyerConversation", fields: [buyerId], references: [id])
-  buyerId      String    @unique @map("buyer_id")
+  buyerId      String    @map("buyer_id")
   readBySeller Boolean   @map("read_by_seller")
   readByBuyer  Boolean   @map("read_by_buyer")
   lastMessage  String?   @map("last_message")

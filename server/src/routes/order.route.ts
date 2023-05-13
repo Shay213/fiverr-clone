@@ -1,10 +1,6 @@
 import { FastifyInstance } from "fastify";
-import {
-  createOrder,
-  getOrders,
-  intent,
-} from "../controllers/order.controller.ts";
-const createOrderSchema = {
+import { getOrders, intent, confirm } from "../controllers/order.controller.ts";
+const IntentSchema = {
   params: {
     type: "object",
     properties: {
@@ -16,7 +12,7 @@ const createOrderSchema = {
     200: {
       type: "object",
       properties: {
-        message: { type: "string" },
+        clientSecret: { type: ["string", "null"], nullable: true },
       },
     },
   },
@@ -58,25 +54,43 @@ const getOrdersSchema = {
   },
 };
 
+const ConfirmSchema = {
+  body: {
+    type: "object",
+    properties: {
+      paymentIntent: { type: ["string"] },
+    },
+    required: ["paymentIntent"],
+  },
+  response: {
+    200: {
+      type: "object",
+      properties: {
+        message: { type: "string" },
+      },
+    },
+  },
+};
+
 export default function orderRoute(
   fastify: FastifyInstance,
   options: object,
   done: () => void
 ) {
-  /*fastify.post(    FOR TESTING PURPOSES
-    "/:gigId",
-    { onRequest: [fastify.authenticate], schema: createOrderSchema },
-    createOrder
-  );*/
   fastify.get(
     "/",
     { onRequest: [fastify.authenticate], schema: getOrdersSchema },
     getOrders
   );
   fastify.post(
-    "/create-payment-intent/:id",
-    { onRequest: [fastify.authenticate] },
+    "/create-payment-intent/:gigId",
+    { onRequest: [fastify.authenticate], schema: IntentSchema },
     intent
+  );
+  fastify.put(
+    "/",
+    { onRequest: [fastify.authenticate], schema: ConfirmSchema },
+    confirm
   );
   done();
 }
